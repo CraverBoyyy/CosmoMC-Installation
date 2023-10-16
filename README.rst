@@ -14,7 +14,9 @@ version of CosmoMC's sampler and most other CosmoMC features, but has more gener
 general support of multiple inter-dependent theory and likelihood codes. New users should probably use that.
 
 For full CosmoMC install details see the `ReadMe <http://cosmologist.info/cosmomc/readme.html>`_.
+
 ` print('hello world') `
+
 Algorithm details
 ==================
 
