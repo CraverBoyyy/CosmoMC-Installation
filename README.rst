@@ -4,7 +4,7 @@ CosmoMC: คู่มือการติดตั้ง
 :CosmoMC:  Fortran 2008 parallelized MCMC sampler (general and cosmology)
 :Homepage: https://cosmologist.info/cosmomc/
 
-`print('hello world')`
+
 
 Description and installation
 =============================
@@ -14,7 +14,7 @@ version of CosmoMC's sampler and most other CosmoMC features, but has more gener
 general support of multiple inter-dependent theory and likelihood codes. New users should probably use that.
 
 For full CosmoMC install details see the `ReadMe <http://cosmologist.info/cosmomc/readme.html>`_.
-
+` print('hello world') `
 Algorithm details
 ==================
 
