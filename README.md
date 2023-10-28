@@ -1,23 +1,19 @@
-===================
+
 CosmoMC: คู่มือการติดตั้ง
 ===================
-:CosmoMC:  Fortran 2008 parallelized MCMC sampler (general and cosmology)
-:Homepage: https://cosmologist.info/cosmomc/
+CosmoMC ("Cosmological Monte Carlo") เป็นซอฟแวร์ที่ใช้ในการศึกษา cosmological parameter space ซึ่งใช้ Markov Chain Monte Carlo (MCMC) เป็นอัลกอริทึม CosmoMC ถูกเขียนด้วยภาษา FORTRAN 2003/2008 และใช้ภาษา Python ในการวิเคราะห์ผล และพล็อตกราฟ โปรแกรมนี้มีส่วนประกอบภายในคือ \texttt{CAMB} สำหรับเพื่อคำนวณ by theoretical matter power spectrum และ temperature power spectrum และ polarization power spectrum ของ CMB 
 
 
-
-Description and installation
+Preparation
 =============================
 
-The new Python `Cobaya <https://github.com/CobayaSampler/cobaya>`_ sampling package incorporates a
-version of CosmoMC's sampler and most other CosmoMC features, but has more general speed optimization and
-general support of multiple inter-dependent theory and likelihood codes. New users should probably use that.
+* Hardware : สำหรับการรัน CosmoMC ซึ่งต้องรันแบบ parallel compilation ดังนั้นควรใช้อุปกรณ์คอมพิวเตอร์ที่มี cpu ตั้งแต่ 2 core ขึ้นไป   
+* Operating System : สามารถติดตั้งได้ในระปฏิบัติการ Linux เช่น Ubuntu และนอกจากนี้ยังสามารถติดตั้งได้ในระบบปฏิบัติการ MacOS หากต้องการติดตั้งในเครื่อง Windows ควรติดตั้งโปรแกรม Linux for Windows หรือ Virtual Machine เพื่อใช้ในการติดตั้ง สำหรับคู่มือติดตั้งนี้จะใช้ระบบปฏิบัติการ Linux บน Ubuntu
+* Compilers : สำหรับ compiler ที่ต้องใช้ในการรัน CosmoMC มีหลายส่วนด้วยกัน จำเป็นต้องติดตั้งทั้งหมดเพื่อที่จะสามารถรันงานได้ ซึ่งจะประกอบไปด้วย C compiler, Fortran compiler และ Python compiler โดยหากติดตั้งแค่ GNU Compiler สามารถรันงานปกติ แต่หากต้องการให้การรันไวขึ้นสามารถติดตั้ง Intel Compiler เพิื่อเพิ่มประสิทธิภาพในการรันได้ไวขึ้น
+* Open-MPI : ใช้ในการรัน CosmoMC บน parallel machine
+* Cfitsio : ใช้สำหรับอ่านไฟล์ .fits โดยเฉพาะข้อมูล CMB ซึ่งเป็นไฟล์สกุลนี้
 
-For full CosmoMC install details see the `ReadMe <http://cosmologist.info/cosmomc/readme.html>`_.
-
-` print('hello world') `
-
-Algorithm details
+ระบบปฏิบัติการ Linux บน Ubuntu
 ==================
 
 See the latest `paper <http://arxiv.org/abs/1304.4473>`_.
