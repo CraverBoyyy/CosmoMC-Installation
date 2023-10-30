@@ -121,6 +121,181 @@ make
 ```Linux
 make clean && make
 ```
+หากไม่สามารถสั่ง \texttt{make} ได้ ให้ทำการลบไฟล์ \texttt{cosmomc} ก่อน โดยพิมพ์คำสั่ง \texttt{rm cosmomc} ในส่วนของการคอมไพล์โปรแกรม \texttt{CAMB} ซึ่งเป็นโปรแกรมที่สำหรับคำนวณส่วนทฤษฎีของ \texttt{CosmoMC} จะอยู่ภายในไฟล์ย่อย
+
+```Linux
+cd camb/fortran/
+make
+```
+หากคอมไพล์สำเร็จจะปรากฎไฟล์ \texttt{camb} ขึ้นมาบนไฟล์
+
+>> 3.3 Running
+
+การรัน \texttt{CosmoMC} จะต้องใช้คำสั่ง \texttt{mpirun} เพื่อทำการรันงานแบบ parallel running โดยต้องระบุจำนวนคอร์ในการรัน หากไม่ระบุจะถูกตั้งค่าให้เป็น 1 คอร์ และไฟล์ .ini คือไฟล์สำหรับการสั่งรันงานซึ่งจะระบุชุดข้อมูลที่ใช้ การกำหนดพารามิเตอร์ และการเซ็คค่าต่าง ๆ ซึ่งสำคัญในการรันงาน
+
+```Linux
+mpirun -np <number of processers (cores)> ./cosmomc <.ini file>
+```
+
+```
+#high-L plik likelihood
+DEFAULT(batch3/plik_rd12_HM_v22_TTTEEE.ini)
+
+#low-L temperature
+DEFAULT(batch3/lowl.ini)
+
+#low-L EE polarization
+DEFAULT(batch3/simall_EE.ini)
+
+#Bicep-Keck-Planck 2015, varying cosmological parameters (use only if varying r)
+DEFAULT(batch3/BK15.ini)
+
+#DES 1-yr joint
+DEFAULT(batch3/DES.ini)
+
+#Planck 2018 lensing (native code, does not require Planck likelihood code)
+DEFAULT(batch3/lensing.ini)
+
+#BAO compilation
+DEFAULT(batch3/BAO.ini)
+
+#Pantheon SN
+DEFAULT(batch3/Pantheon.ini)
+
+#general settings
+DEFAULT(batch3/common.ini)
+
+propose_matrix= planck_covmats/<.covmat file for each work>
+
+#Folder where files (chains, checkpoints, etc.) are stored
+root_dir = chains/<model directory for each work>/
+
+#Root name for files produced
+file_root=<name>
+#action= 0 runs chains, 1 importance samples, 2 minimizes
+#use action=4 just to quickly test likelihoods
+action = 0
+
+#turn on checkpoint for real runs where you want to be able to continue them
+checkpoint = T
+```
+ส่วนนี้เป็นส่วนสำคัญในไฟล์ .ini ซึ่งส่วนแรกคือ propose matrix ซึ่งควรจะเซ็ตให้เหมาะสมการการเลือกใช้ชุดข้อมูลและพารามิเตอร์ โดยสามารถเช็คได้ที่ไฟล์ plank\_covmat ซึ่งจะมีไฟล์จำนวนมากสำหรับเซ็ต propose matrix แต่หากไม่ได้เลือก propose matrix ที่เหมาะสมไว้โปรแกรมจะทำการประมาณค่าเองซึ่งอาจจะทำให้การรันงานนานขึ้น 
+
+ส่วนสำคัญถัดมาคือ root\_dir ซึ่งเป็นตำแหน่งไฟล์มี่จะเก็บผลจากการรันงานเพื่อนำไปสร้างกราฟ โดยหากทำการรันหลายงานควรจะระมัดระวังในการสร้างไฟล์ทับกัน ควรจะเปลี่ยนชื่อไฟล์ หรือ สร้างไฟล์ใหม่ขึ้นมาเพื่อเก็บผลการรัน สำหรับข้อมูลเพิ่มเติมสามารถศึกษาได้ \texttt{https://cosmologist.info/cosmomc/readme.html}
+
+>> 3.4 Cluster Running
+
+การรัน \texttt{CosmoMC} สามารถสั่งการบนเครื่อง HPC (High Performance Computing) เพื่อให้สามารถรันเสร็จได้ไวกว่าการใช้คอมพิวเตอร์ทั่วไป ซึ่งปัจจุบันในไทยสามารถขอใช้งานเครื่อง Chalawan HPC ของสถาบันวิจัยดาราศาสตร์แห่งชาติ (NARIT) เพื่อทำการรันงาน โดยจะมี 2 node หลักที่สามารถใช้งานการรันได้ pollux node (gpu) และ castor node (cpu) ประสิทธิภาพจะของ pollux จะรันไว้ไวกว่าแต่เนื่องจากมีเพียง 2 node จึงแนะนำให้ใช้ castor ซึ่งมีจำนวน node ให้ใช้งานมากกว่า
+
+ สำหรับการรันงานบนคลัสเตอร์จะต้องใช้ไฟล์ .sh เพื่อบรรจุคำสั่งให้ hpc ทำการรันงาน โดยในเครื่อง Chalawan จะมีโมดูลสำเร็จรูปซึ่งสามารถใช้สำหรับสั่งรันแบบจำลองที่ไม่ได้มีการแก้ไขได้เลย เช่น แบบจำลอง LCDM
+
+ ```Linux
+#!/bin/bash
+
+#SBATCH -J CosmoMC      # Job name
+#SBATCH -n 10           # Number of tasks
+
+module purge
+module load hwloc
+module load intel/19.0.5.281
+module load openmpi3/4.0.2
+module load CosmoMC
+mpirun <path to .ini file>
+```
+สำหรับการรันบน pollux node หากมีการแก้ไขแบบจำลอง (Modified model) ต้องทำการสร้าง symbolic link สำหรับ CLIK\_PATH ในขั้นตอน 3.1 บรรทัดที่ 3 จากนั้นต้องทำการสั่งคอมไพล์ ซึ่งต้องทำการโหลดโมดูลที่สำคัญดังนี้ หลังจากนั้นทำตามขั้นตอนที่ 3.2
+
+```Linux
+module purge
+module load hwloc
+module load intel/19.0.5.281
+module load openmpi3/4.0.2
+export PLANCKLIKE=cliklike
+export CLIK_DATA=/data3/opt/ohpc/pub/apps/CosmoMC-Oct19/plc_3.1/share/clik
+export CLIK_PATH=/data3/opt/ohpc/pub/apps/CosmoMC-Oct19/plc_3.1
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CLIK_PATH/lib
+```
+```Linux
+#!/bin/bash
+
+#SBATCH -J CosmoMC      # Job name
+#SBATCH -n 10           # Number of tasks
+#SBATCH -p chalawan_gpu # Partition
+#SBATCH -w pollux3
+
+module purge
+module load hwloc
+module load intel/19.0.5.281
+module load openmpi3/4.0.2
+export PLANCKLIKE=cliklike
+export CLIK_DATA=/data3/opt/ohpc/pub/apps/CosmoMC-Oct19/plc_3.1/share/clik
+export CLIK_PATH=/data3/opt/ohpc/pub/apps/CosmoMC-Oct19/plc_3.1
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CLIK_PATH/lib
+mpirun ./cosmomc <path to .ini file>
+```
+สำหรับการรันบน castor node ต้องทำการติดตั้ง Planck likelihood และทำการคอมไพล์ใหม่ทั้งหมดด้วย GNU Compiler ซึ่งจะต้องโหลดโมดูลสำคัญดังนี้ จากนั้นทำตามขั้นตอนที่ 2 จนถึงขั้นตอนที่ 3 ตามคู่มือ
+```Linux
+module purge
+module load gnu8
+module load hwloc
+module load openmpi3
+```
+```Linux
+#!/bin/bash
+
+#SBATCH -J CosmoMC      # Job name
+#SBATCH -p chalawan_cpu # Partition
+#SBATCH -n 10           # Number of task
+
+module purge
+module load gnu8
+module load hwloc
+module load openmpi3
+source data/clik_14.0/bin/clik_profile.sh
+
+mpirun ./cosmomc <path to .ini file>
+```
+
+>> 3.5 Output
+
+หลังจากทำการสั่งรัน \texttt{CosmoMc} ภายใน chains dierctory จะปรากฏไฟล์ซึ่งเป็น output ไฟล์หลายชนิด
+
+* `.txt file` เป็นไฟล์ซึ่งบรรจุค่าของพารามิเตอร์จากการรันเพื่อนำไปใช้ในการพล็อตกราฟ
+* `.log file` เป็นไฟล์เก็บข้อมูลสำคัญสำหรับการรัน
+* `.data file` เป็นไฟล์เก็บข้อมูลของแบบจำลองในแต่ละจุดสุ่มที่ต่างกัน
+* `.chk file` เป็นไฟล์สำหรับเก็บข้อมูลซึ่งรันไว้ก่อนที่งานจะสำเร็จหรือถูกยกเลิก สามารถใช้ไฟล์นี้เพื่อทำการรันต่อจากจุดที่หยุดโดยไม่ต้องเริ่มใหม่
+* `.inputparams file` ไฟล์แสดงพารามิเตอร์เริ่มต้นของแบบจำลอง
+* `.likelihood file` ไฟล์แสดง likelihoods ที่ใช้ในการรัน
+* `.paramnames file` ไฟล์แสดงพารามิเตอร์ทั้งหมด
+* `.ranges file` ไฟล์แสดงช่วงของค่าของพารามิเตอร์
+* `.converge_stat file` ไฟล์แสดงค่า R-1 ซึ่งจะบอกถึงค่าที่ยอมรับเพื่อนหยุดการรัน
+
+>> Plotting with GetDist
+
+การสร้างกราฟการกระจาย (distribution plot) และ กราฟสามเหลี่ยม (triangle plot) ต้องใช้แพคเกจสำหรับสร้างกราฟจากไฟล์ซึ่งเป็นเอาพุตท์ไฟล์จากการรัน \texttt{CosmoMC} รวมไปถึงการวิเคราะห์ค่าต่าง ๆ จากการรัน โดยแพคเกจต้องใช้ภาษา python ในการเขียนคำสั่ง โปรแกรมสำหรับเพื่อแสดงกราฟฟิกของ python แนะนำให้ใช้ jupyter notebook หรือ jupyter lab โดยสามารถติดตั้งได้ด้วยตัวเองจากอินเทอร์เน็ตในทุกระบบปฏิบัติการ
+และสามารถศึกษาเพิ่มเติมจาก https://getdist.readthedocs.io/en/latest/ และ https://getdist.readthedocs.io/en/latest/plot\_gallery.html
+
+```python
+%matplotlib inline
+import getdist
+from getdist import plots, MCSamples, loadMCSamples
+
+file_root1 = 'planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing_post_BAO'
+file_root2 = 'planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing'
+
+samples1 = loadMCSamples(file_root=file_root1,settings={'ignore_rows':0.5})
+samples2 = loadMCSamples(file_root=file_root2,settings={'ignore_rows':0.5})
+```
+```python
+g2 = plots.get_subplot_plotter(width_inch=5)
+g2.settings.axes_fontsize = 16
+g2.settings.axes_labelsize = 20
+g2.plot_2d([samples1],'omegabh2','omegach2',filled=True,contour_lws=1.5)
+```
+
+
+
+
+
 
 
 
