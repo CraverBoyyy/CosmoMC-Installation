@@ -1,20 +1,23 @@
 
-CosmoMC: คู่มือการติดตั้ง
+CosmoMC: Installation and Using Guide
 ===================
-CosmoMC ("Cosmological Monte Carlo") เป็นซอฟแวร์ที่ใช้ในการศึกษา cosmological parameter space ซึ่งใช้ Markov Chain Monte Carlo (MCMC) เป็นอัลกอริทึม **CosmoMC** ถูกเขียนด้วยภาษา FORTRAN 2003/2008 และใช้ภาษา Python ในการวิเคราะห์ผล และพล็อตกราฟ โปรแกรมนี้มีส่วนประกอบภายในคือ **CAMB** สำหรับเพื่อคำนวณ by theoretical matter power spectrum และ temperature power spectrum และ polarization power spectrum ของ CMB 
+This project will guide you through the detailed installation process of CosmoMC. It includes instructions for compiling and running on both a computer and a cluster. Additionally, it demonstrates how to analyze the chains from CosmoMC and generate 2D plots or triangle plots using GetDist.
+
+[CosmoMC](https://cosmologist.info/cosmomc/) is a Fortran 2008 Markov-Chain Monte-Carlo (MCMC) engine for exploring cosmological parameter space, together with Fortran and python code for analysing Monte-Carlo samples and importance sampling (plus a suite of scripts for building grids of runs, plotting and presenting results). The code does brute force (but accurate) theoretical matter power spectrum and $C_l$ calculations with [CAMB](https://camb.info). See the original [paper](https://arxiv.org/abs/astro-ph/0205436) for an introduction and descriptions, and up-to-date [sampling algorithm](https://arxiv.org/abs/1304.4473) details. It can also be compiled as a [generic sampler](https://cosmologist.info/cosmomc/readme.html#Generic) without using any cosmology codes.
 
 
->1. Preparation
+Preparation 
+===================
+* Hardware : To employ the provided parallel capabilities of CosmoMC, you need more than just one core. Markov chain algorithms are time-consuming and performing them on parallel machines will boost the code’s performance.
+* Operating System : CosmoMC is available for Linux and MacOS. Here, we installed and tested CosmoMC on Ubuntu and also MacOS.
+* Compilers : CosmoMC is compatible with GFORTRAN compiler (GNU) and IFORT compiler (Oneapi).
+* Open-MPI : OpenMPI library is required for running on parallel machines.
+* Cfitsio : CosmoMC uses the CFITSIO library to read file FITS data format including CMB data files.
+* Planck Likelihood : Planck Likelihood Code V3.0 is required to run CosmoMC with Planck 2018 data.
+ 
+1. Ubuntu
 
-* Hardware : สำหรับการรัน CosmoMC ซึ่งต้องรันแบบ parallel compilation ดังนั้นควรใช้อุปกรณ์คอมพิวเตอร์ที่มี cpu ตั้งแต่ 2 core ขึ้นไป   
-* Operating System : สามารถติดตั้งได้ในระปฏิบัติการ Linux เช่น Ubuntu และนอกจากนี้ยังสามารถติดตั้งได้ในระบบปฏิบัติการ MacOS หากต้องการติดตั้งในเครื่อง Windows ควรติดตั้งโปรแกรม Linux for Windows หรือ Virtual Machine เพื่อใช้ในการติดตั้ง สำหรับคู่มือติดตั้งนี้จะใช้ระบบปฏิบัติการ Linux บน Ubuntu
-* Compilers : สำหรับ compiler ที่ต้องใช้ในการรัน CosmoMC มีหลายส่วนด้วยกัน จำเป็นต้องติดตั้งทั้งหมดเพื่อที่จะสามารถรันงานได้ ซึ่งจะประกอบไปด้วย C compiler, Fortran compiler และ Python compiler โดยหากติดตั้งแค่ GNU Compiler สามารถรันงานปกติ แต่หากต้องการให้การรันไวขึ้นสามารถติดตั้ง Intel Compiler เพิื่อเพิ่มประสิทธิภาพในการรันได้ไวขึ้น
-* Open-MPI : ใช้ในการรัน CosmoMC บน parallel machine
-* Cfitsio : ใช้สำหรับอ่านไฟล์ .fits โดยเฉพาะข้อมูล CMB ซึ่งเป็นไฟล์สกุลนี้
-
->>1.1 ระบบปฏิบัติการ Linux บน Ubuntu
-
->>>1.1.1 การติดตั้ง GNU Compiler
+>>>1.1 Install GNU Compiler
 ```Linux
 sudo apt update && sudo apt upgrade
 sudo apt install gcc
@@ -40,7 +43,7 @@ sudo apt install libcfitsio-dev
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install open-mpi
 ```
->>>1.1.2 การติดตั้ง Intel Compiler
+>>>1.2 Install Intel Compiler
 
 ในส่วนของ Intel Compiler สามารถทำการติดตั้งเพิ่มเติมภายหลังจากติดตั้ง GNU Compiler ซึ่งประสิทธิภาพของ Intel Compiler จะไวกว่า GNU 10\%-20\% โดยปกติเพียงแค่ GNU Compiler สามารถรันงานได้เช่นเดียวกัน 
 
@@ -54,10 +57,12 @@ sudo apt -y install cmake pkg-config build-essential
 . /opt/intel/oneapi/setvars.sh 
 ```
 
->>1.2 ระบบปฏิบัติการ MacOS
+2. MacOS
 
 ```Linux
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+```Linux
 brew install gcc
 brew install gfortran
 brew install g++
@@ -78,8 +83,8 @@ brew install open-mpi
 ```
 ภายหลังจากการติดตั้งส่วนของ compiler และ library ต่าง ๆ เสร็จเรียบร้อยแล้วถัดไปจะเป็นการติดตั้ง Planck 2018 data เพื่อใช้ในการรันโปรแกรม **CosmoMC**
 
-> 2. Planck Likelihood
-
+Planck Likelihood
+===================
 เนื่องจากไฟล์ข้อมูลมีขนาดรวมประมาณ 20 Gb จึงแนะนำให้ดาวน์โหลดเฉพาะบรรทัดที่ 1 - 2 เพื่อทำการคอมไพล์ และในส่วนบรรทัด 3 - 7 สามารถดาวน์โหลดและย้ายไฟล์เข้าไปในไฟล์ที่คอมไพล์สำเร็จแล้ว หรือสามารถเข้าไปดาน์โหลดไฟล์โดยตรงที่ [Planck Likelihood](https://pla.esac.esa.int) เข้าไปที่หน้า **Cosmology** และกดที่ **Likelihood** จะแสดงไฟล์ให้ดาวน์โหลดทั้งหมด 7 ไฟล์
 ```Linux
 wget -O COM_Likelihood_Code-v3.0_R3.10.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Code-v3.0_R3.10.tar.gz"
