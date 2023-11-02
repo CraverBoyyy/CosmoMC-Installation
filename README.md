@@ -1,10 +1,7 @@
 
 CosmoMC: Installation and Using Guide
 ===================
-This project will guide you through the detailed installation process of CosmoMC. It includes instructions for compiling and running on both a computer and a cluster. Additionally, it demonstrates how to analyze the chains from CosmoMC and generate 2D plots or triangle plots using GetDist.
-
-[CosmoMC](https://cosmologist.info/cosmomc/) is a Fortran 2008 Markov-Chain Monte-Carlo (MCMC) engine for exploring cosmological parameter space, together with Fortran and python code for analysing Monte-Carlo samples and importance sampling (plus a suite of scripts for building grids of runs, plotting and presenting results). The code does brute force (but accurate) theoretical matter power spectrum and $C_l$ calculations with [CAMB](https://camb.info). See the original [paper](https://arxiv.org/abs/astro-ph/0205436) for an introduction and descriptions, and up-to-date [sampling algorithm](https://arxiv.org/abs/1304.4473) details. It can also be compiled as a [generic sampler](https://cosmologist.info/cosmomc/readme.html#Generic) without using any cosmology codes.
-
+This project will guide you through the detailed installation process of CosmoMC. It includes instructions for compiling and running on both a computer and a cluster. Additionally, it demonstrates how to analyze the chains from CosmoMC and generate 2D plots or triangle plots using GetDist. This guidance has been adapted from [arXiv:1409.1354](https://arxiv.org/abs/1409.1354) and [arXiv:1808.05080](https://arxiv.org/abs/1808.05080).
 
 Preparation 
 ===================
@@ -16,8 +13,7 @@ Preparation
 * Planck Likelihood : Planck Likelihood Code V3.0 is required to run CosmoMC with Planck 2018 data.
  
 1. Ubuntu
-
->>>1.1 Install GNU Compiler
+- Install GNU Compiler
 ```Linux
 sudo apt update && sudo apt upgrade
 sudo apt install gcc
@@ -37,16 +33,17 @@ pip3 install getdist
 sudo apt install liblapack-dev
 sudo apt install libcfitsio-dev
 ```
-หมายเหตุ: สำหรับการติดตั้งบนระบบปฏิบัติการ Linux ต้องติดตั้ง Open-MPI เองซึ่งมีวิธีการที่ค่อนข้างยุ่งยาก แต่สามารถใช้ Homebrew ซึ่งเป็นตัวช่วยในการติดตั้งโปรแกรมอย่างง่าย โดยพิมพ์คำสั่งดังต่อไปนี้เพื่อติดตั้ง Open-MPI บน Linux
-
+- Install HomeBrew
 ```Linux
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install open-mpi
 ```
->>>1.2 Install Intel Compiler
+หมายเหตุ: สําหรับการติดตั้งบนระบบปฏิบัติการ Linux ต้องติดตั้ง Open-MPI เองซึ่งมีวิธีการที่ค่อนข้างยุ่งยาก แต่สามารถใช้ Homebrew ซึ่งเป็นตัว
+ช่วยในการติดตั้งโปรแกรมอย่างง่าย โดยพิมพ์คําสั่งดังต่อไปนี้เพื่อติดตั้ง Open-MPI บน Linux
 
-ในส่วนของ Intel Compiler สามารถทำการติดตั้งเพิ่มเติมภายหลังจากติดตั้ง GNU Compiler ซึ่งประสิทธิภาพของ Intel Compiler จะไวกว่า GNU 10\%-20\% โดยปกติเพียงแค่ GNU Compiler สามารถรันงานได้เช่นเดียวกัน 
-
+- Install Intel Compiler (Optional)
+ในส่วนของ Intel Compiler สามารถทําการติดตั้งเพิ่มเติมภายหลังจากติดตั้ง GNU Compiler ซึ่งประสิทธิภาพของ Intel Compiler จะไวกว่า GNU
+10%-20% โดยปกติเพียงแค่ GNU Compiler สามารถรันงานได้เช่นเดียวกัน
 ```Linux
 wget https://registrationcenter-download.intel.com/akdlm/IRC_NAS/992857b9-624c-45de-9701-f6445d845359/l_BaseKit_p_2023.2.0.49397.sh
 sudo sh ./l_BaseKit_p_2023.2.0.49397.sh
@@ -58,10 +55,11 @@ sudo apt -y install cmake pkg-config build-essential
 ```
 
 2. MacOS
-
+- Install HomeBrew
 ```Linux
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+- Install GNU Compiler
 ```Linux
 brew install gcc
 brew install gfortran
@@ -81,22 +79,22 @@ brew install lapack
 brew install cfitsio
 brew install open-mpi
 ```
-ภายหลังจากการติดตั้งส่วนของ compiler และ library ต่าง ๆ เสร็จเรียบร้อยแล้วถัดไปจะเป็นการติดตั้ง Planck 2018 data เพื่อใช้ในการรันโปรแกรม **CosmoMC**
 
 Planck Likelihood
 ===================
-เนื่องจากไฟล์ข้อมูลมีขนาดรวมประมาณ 20 Gb จึงแนะนำให้ดาวน์โหลดเฉพาะบรรทัดที่ 1 - 2 เพื่อทำการคอมไพล์ และในส่วนบรรทัด 3 - 7 สามารถดาวน์โหลดและย้ายไฟล์เข้าไปในไฟล์ที่คอมไพล์สำเร็จแล้ว หรือสามารถเข้าไปดาน์โหลดไฟล์โดยตรงที่ [Planck Likelihood](https://pla.esac.esa.int) เข้าไปที่หน้า **Cosmology** และกดที่ **Likelihood** จะแสดงไฟล์ให้ดาวน์โหลดทั้งหมด 7 ไฟล์
+Due to the large size of the data file, approximately 20 GB, it is recommended to download only **Code** and **Baseline** for compilation. For other files, you can download and move the files into the successfully compiled directory. Alternatively, you can directly download the files from  [Planck Likelihood](https://pla.esac.esa.int) on the Cosmology page by clicking on Likelihood, which will display all 7 files available for download.
 ```Linux
 wget -O COM_Likelihood_Code-v3.0_R3.10.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Code-v3.0_R3.10.tar.gz"
 wget -O COM_Likelihood_Data-baseline_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-baseline_R3.00.tar.gz"
 tar -xzvf COM_Likelihood_Code-v3.0_R3.10.tar.gz
 tar -xzvf COM_Likelihood_Data-baseline_R3.00.tar.gz
+mv -rf baseline/plc_3.0/* code/plc_3.0/plc-3.1/
 cd code/plc_3.0/plc-3.1/
 python3 ./waf configure --install_all_deps
 python3 ./waf install
 source ./bin/clik_profile.sh
 ```
-หมายเหตุ: หากต้องการใช้ Intel Compiler ให้เพิ่มคำสั่ง **--lapack\_mkl=\$MKLROOT** ต่อท้ายของบรรทัดที่ 4 ภายหลังจากติดตั้งไฟล์ **code** เสร็จแล้ว จากนั้นทำการแตกไฟล์ที่เหลือและทำการย้ายไฟล์ **hi\_l**, **low\_l**, **lensing** จากไฟล์ที่ทำการแตกไฟล์ออก ย้ายไปที่ไฟล์ **code/plc\_3.0/plc-3.1/** 
+If you want to use the Intel Compiler, add the command **--lapack\_mkl=\$MKLROOT** at the end of `python3 ./waf configure --install_all_deps` line. After installing the **code** file, proceed to extract the remaining files. Then, move the **hi\_l**, **low\_l**, **lensing** files from the extracted directory to the **code/plc\_3.0/plc-3.1/** directory.
 ```Linux
 wget -O COM_Likelihood_Data-extra-plik-lite-ext_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-extra-plik-lite-ext_R3.00.tar.gz"
 wget -O COM_Likelihood_Data-extra-camspec-ext_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-extra-camspec-ext_R3.00.tar.gz"
@@ -105,43 +103,45 @@ wget -O COM_Likelihood_Data-extra-bflike-ext_R3.00.tar.gz "http://pla.esac.esa.i
 wget -O COM_Likelihood_Data-extra-lensing-ext_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-extra-lensing-ext_R3.00.tar.gz"
 ```
 
-> 3. CosmoMC
+```Linux
+tar -xzvf <.tar.gz file>
 
->> 3.1 Installation
+```
 
+CosmoMC
+===================
+
+1. Installation
 ```Linux
 git clone --recursive https://github.com/cmbant/CosmoMC.git
 cd CosmoMC
 ln -s </plc-3.1 PATH> ./data/clik_14.0
 ```
-หมายเหตุ: PATH ของไฟล์ **/plc-3.1** สามารถทำการเช็คด้วยการพิมพ์คำสั่ง `echo $CLIK_PATH` จะขึ้น PATH ของไฟล์
+The PATH of the `/plc-3.1` file can be checked by typing the command `echo $CLIK_PATH`. It will display the PATH of the file.
 
->> 3.2 Compilation
-
-ในส่วนโปรแกรม \texttt{CosmoMC} ต้องทำการสร้างไฟล์ .exe ชื่อ \texttt{cosmomc} ซึ่งจะใช้ในการรันงานโดยพิมคำสั่งดังนี้บนหน้าต่าง CosmoMC/  
+2. Compilation
 ```Linux
 make
 ```
-โดยภายหลังจากคอมไพล์สำเร็จจะมีไฟล์ \texttt{cosmomc} ปรากฏขึ้นในไฟล์ และหากต้องการที่จะสร้างไฟล์ \texttt{cosmomc} ใหม่เมื่อมีการแก้ไขไฟล์ พิมพ์คำสั่ง
+After successful compiling, a file named `cosmomc` will be created in CosmoMC directory.
+
 ```Linux
 make clean && make
 ```
-หากไม่สามารถสั่ง \texttt{make} ได้ ให้ทำการลบไฟล์ \texttt{cosmomc} ก่อน โดยพิมพ์คำสั่ง \texttt{rm cosmomc} ในส่วนของการคอมไพล์โปรแกรม \texttt{CAMB} ซึ่งเป็นโปรแกรมที่สำหรับคำนวณส่วนทฤษฎีของ \texttt{CosmoMC} จะอยู่ภายในไฟล์ย่อย
+If unable to execute the `make` command, delete the file `cosmomc` first by typing the command `rm cosmomc`. The compilation of the CAMB program, which is used for calculating the theoretical part of CosmoMC and is located within a subdirectory `camb/fortran/`. If the compilation is successful, the file `camb` will appear in the directory.
 
 ```Linux
 cd camb/fortran/
 make
 ```
-หากคอมไพล์สำเร็จจะปรากฎไฟล์ \texttt{camb} ขึ้นมาบนไฟล์
 
->> 3.3 Running
-
-การรัน \texttt{CosmoMC} จะต้องใช้คำสั่ง \texttt{mpirun} เพื่อทำการรันงานแบบ parallel running โดยต้องระบุจำนวนคอร์ในการรัน หากไม่ระบุจะถูกตั้งค่าให้เป็น 1 คอร์ และไฟล์ .ini คือไฟล์สำหรับการสั่งรันงานซึ่งจะระบุชุดข้อมูลที่ใช้ การกำหนดพารามิเตอร์ และการเซ็คค่าต่าง ๆ ซึ่งสำคัญในการรันงาน
+3. Running
+To run CosmoMC you need to run it with MPI using mpirun command. Set your corrent directory to CosmoMC directory and run this command.
 
 ```Linux
 mpirun -np <number of processers (cores)> ./cosmomc <.ini file>
 ```
-
+Inside the `.ini file` there are some lines which start with DEFAULT keyword. If these lines are not commented, it means we can use likelihoods related to these data.
 ```
 #high-L plik likelihood
 DEFAULT(batch3/plik_rd12_HM_v22_TTTEEE.ini)
@@ -184,15 +184,13 @@ action = 0
 #turn on checkpoint for real runs where you want to be able to continue them
 checkpoint = T
 ```
-ส่วนนี้เป็นส่วนสำคัญในไฟล์ .ini ซึ่งส่วนแรกคือ propose matrix ซึ่งควรจะเซ็ตให้เหมาะสมการการเลือกใช้ชุดข้อมูลและพารามิเตอร์ โดยสามารถเช็คได้ที่ไฟล์ plank\_covmat ซึ่งจะมีไฟล์จำนวนมากสำหรับเซ็ต propose matrix แต่หากไม่ได้เลือก propose matrix ที่เหมาะสมไว้โปรแกรมจะทำการประมาณค่าเองซึ่งอาจจะทำให้การรันงานนานขึ้น 
+To do a MCMC run you need to find the line which starts with action and set its value to 0.
 
-ส่วนสำคัญถัดมาคือ root\_dir ซึ่งเป็นตำแหน่งไฟล์มี่จะเก็บผลจากการรันงานเพื่อนำไปสร้างกราฟ โดยหากทำการรันหลายงานควรจะระมัดระวังในการสร้างไฟล์ทับกัน ควรจะเปลี่ยนชื่อไฟล์ หรือ สร้างไฟล์ใหม่ขึ้นมาเพื่อเก็บผลการรัน สำหรับข้อมูลเพิ่มเติมสามารถศึกษาได้ \texttt{https://cosmologist.info/cosmomc/readme.html}
+4. Running on Cluster
 
->> 3.4 Cluster Running
+Running CosmoMC can be initiated on an HPC (High Performance Computing) machine for faster completion compared to using a regular computer. Currently in Thailand, access to the Chalawan HPC facility at the National Astronomical Research Institute of Thailand (NARIT) can be requested for running jobs. There are two main nodes available for execution: the pollux node (GPU) and the castor node (CPU). The pollux node tends to run faster, but since there are only 2 nodes, it is recommended to use the castor node, which offers more nodes for processing.
 
-การรัน \texttt{CosmoMC} สามารถสั่งการบนเครื่อง HPC (High Performance Computing) เพื่อให้สามารถรันเสร็จได้ไวกว่าการใช้คอมพิวเตอร์ทั่วไป ซึ่งปัจจุบันในไทยสามารถขอใช้งานเครื่อง Chalawan HPC ของสถาบันวิจัยดาราศาสตร์แห่งชาติ (NARIT) เพื่อทำการรันงาน โดยจะมี 2 node หลักที่สามารถใช้งานการรันได้ pollux node (gpu) และ castor node (cpu) ประสิทธิภาพจะของ pollux จะรันไว้ไวกว่าแต่เนื่องจากมีเพียง 2 node จึงแนะนำให้ใช้ castor ซึ่งมีจำนวน node ให้ใช้งานมากกว่า
-
- สำหรับการรันงานบนคลัสเตอร์จะต้องใช้ไฟล์ .sh เพื่อบรรจุคำสั่งให้ hpc ทำการรันงาน โดยในเครื่อง Chalawan จะมีโมดูลสำเร็จรูปซึ่งสามารถใช้สำหรับสั่งรันแบบจำลองที่ไม่ได้มีการแก้ไขได้เลย เช่น แบบจำลอง LCDM
+For running jobs on the cluster, `.sh` files must be used to keep commands for the HPC to execute the jobs. In the Chalawan HPC, built-in modules are available for running unmodified models. For instance, the LCDM model can be run using these built-in modules.
 
  ```Linux
 #!/bin/bash
@@ -207,8 +205,7 @@ module load openmpi3/4.0.2
 module load CosmoMC
 mpirun <path to .ini file>
 ```
-สำหรับการรันบน pollux node หากมีการแก้ไขแบบจำลอง (Modified model) ต้องทำการสร้าง symbolic link สำหรับ CLIK\_PATH ในขั้นตอน 3.1 บรรทัดที่ 3 จากนั้นต้องทำการสั่งคอมไพล์ ซึ่งต้องทำการโหลดโมดูลที่สำคัญดังนี้ หลังจากนั้นทำตามขั้นตอนที่ 3.2
-
+For running on the pollux node, if model has been modified, a symbolic link for CLIK_PATH must be created in step 1. Following this, compilation is required, and it is essential to load the necessary modules as follows.
 ```Linux
 module purge
 module load hwloc
@@ -237,7 +234,7 @@ export CLIK_PATH=/data3/opt/ohpc/pub/apps/CosmoMC-Oct19/plc_3.1
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$CLIK_PATH/lib
 mpirun ./cosmomc <path to .ini file>
 ```
-สำหรับการรันบน castor node ต้องทำการติดตั้ง Planck likelihood และทำการคอมไพล์ใหม่ทั้งหมดด้วย GNU Compiler ซึ่งจะต้องโหลดโมดูลสำคัญดังนี้ จากนั้นทำตามขั้นตอนที่ 2 จนถึงขั้นตอนที่ 3 ตามคู่มือ
+For running on the castor node, it is necessary to install the Planck likelihood and recompile using the GNU Compiler. The important modules should be loaded as follows.
 ```Linux
 module purge
 module load gnu8
@@ -260,7 +257,7 @@ source data/clik_14.0/bin/clik_profile.sh
 mpirun ./cosmomc <path to .ini file>
 ```
 
->> 3.5 Output
+5. Output
 
 หลังจากทำการสั่งรัน \texttt{CosmoMc} ภายใน chains dierctory จะปรากฏไฟล์ซึ่งเป็น output ไฟล์หลายชนิด
 
@@ -290,18 +287,46 @@ file_root2 = 'planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_l
 samples1 = loadMCSamples(file_root=file_root1,settings={'ignore_rows':0.5})
 samples2 = loadMCSamples(file_root=file_root2,settings={'ignore_rows':0.5})
 ```
+ขั้นแรกทําการนําเข้า getdist library และเลือก chain ที่ต้องการนํามาพล็อตกราฟโดยใส่ directory path ไปสุ๋ไฟล์ที่เลือกที่บรรทัด file_root
 ```python
 g2 = plots.get_subplot_plotter(width_inch=5)
 g2.settings.axes_fontsize = 16
 g2.settings.axes_labelsize = 20
 g2.plot_2d([samples1],'omegabh2','omegach2',filled=True,contour_lws=1.5)
 ```
+การพล็อตรูปเดี่ยวเฉพาะ 2 พารามิเตอร์ที่สนใจโดยใช้คําสั่งดังแสดงด้านบน
+<p align="center">
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/989574bd-510b-4488-a995-6935a7ace3cf"  width="500px" height="500px">
+</p>
+การพล็อตกราฟสามเหลี่ยม โดยสามารถเลือกพารามิเตอร์ที่สนใจจํานวนเท่าใดก็ได้ แต่หากใส่ในจํานวนที่มากเกินไปอาจจะทําให้ภาพมีขนาดใหญ่และราย
+ละเอียดมากเกินไป ควรจะเลือกใส่พารามิเตอร์ที่เหมาะสมไม่มากเกินไป
 
+```python
+g = plots.get_subplot_plotter(width_inch=10)
+g.settings.axes_fontsize = 16
+g.settings.axes_labelsize = 20
+g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5)
+```
+<p align="center">  
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/0edd073e-28fc-4938-8080-1a53e685f0ad" width="700px" height="700px"  align="center" >
+</p>
+สามารถให้กราฟแสดงผลค่า mean และ uncertainty ได้ โดยจะปรากฎด้านบนของกราฟการกระจายของแต่ละพารามิเตอร์ ซึ่งสามารถเลือกได้ทั้ง
+uncertainty ที่ 68%CL และ 95%CL
 
+```python
+g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5,title_limit=2)
+```
+<p align="center">  
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/823b3b03-2636-4bf0-b49c-7c11eecd0538" width="700px" height="700px"  align="center" >
+</p>
 
-
-
-
-
+หากต้องการเปรียบเทียบผลของ 2 แบบจําลองหรือมากกว่า สามารถเพิ่ม chain เข้าไปในคําสั่งได้โดยเพิ่ม file_root เช่นเดียวกับข้อมูลชุดแรก และ
+สามารถปรับจํานวนพารามิตอร์ได้เช่นเดียวกัน
+```python
+ g.triangle_plot((samples1,samples2),['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5)
+```
+<p align="center">        
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/25c0c31d-37b1-4ffc-853a-4ae32b7444f8" width="700px" height="700px"  align="center" >
+</p>
 
 
