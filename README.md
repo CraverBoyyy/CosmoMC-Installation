@@ -34,16 +34,14 @@ sudo apt install liblapack-dev
 sudo apt install libcfitsio-dev
 ```
 - Install HomeBrew
+  For Linux OS, you need to install Open-MPI manually, which have many steps. However, you can use Homebrew to simplify the installation of Open-MPI on Linux. Type the following command.
 ```Linux
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install open-mpi
 ```
-หมายเหตุ: สําหรับการติดตั้งบนระบบปฏิบัติการ Linux ต้องติดตั้ง Open-MPI เองซึ่งมีวิธีการที่ค่อนข้างยุ่งยาก แต่สามารถใช้ Homebrew ซึ่งเป็นตัว
-ช่วยในการติดตั้งโปรแกรมอย่างง่าย โดยพิมพ์คําสั่งดังต่อไปนี้เพื่อติดตั้ง Open-MPI บน Linux
 
 - Install Intel Compiler (Optional)
-ในส่วนของ Intel Compiler สามารถทําการติดตั้งเพิ่มเติมภายหลังจากติดตั้ง GNU Compiler ซึ่งประสิทธิภาพของ Intel Compiler จะไวกว่า GNU
-10%-20% โดยปกติเพียงแค่ GNU Compiler สามารถรันงานได้เช่นเดียวกัน
+You can install Intel Compiler additionally after installing the GNU Compiler. The performance of the Intel Compiler is typically faster than GNU, around 10%-20% faster, although the GNU Compiler is generally sufficient for running the program.
 ```Linux
 wget https://registrationcenter-download.intel.com/akdlm/IRC_NAS/992857b9-624c-45de-9701-f6445d845359/l_BaseKit_p_2023.2.0.49397.sh
 sudo sh ./l_BaseKit_p_2023.2.0.49397.sh
@@ -259,22 +257,21 @@ mpirun ./cosmomc <path to .ini file>
 
 5. Output
 
-หลังจากทำการสั่งรัน \texttt{CosmoMc} ภายใน chains dierctory จะปรากฏไฟล์ซึ่งเป็น output ไฟล์หลายชนิด
-
-* `.txt file` เป็นไฟล์ซึ่งบรรจุค่าของพารามิเตอร์จากการรันเพื่อนำไปใช้ในการพล็อตกราฟ
-* `.log file` เป็นไฟล์เก็บข้อมูลสำคัญสำหรับการรัน
-* `.data file` เป็นไฟล์เก็บข้อมูลของแบบจำลองในแต่ละจุดสุ่มที่ต่างกัน
-* `.chk file` เป็นไฟล์สำหรับเก็บข้อมูลซึ่งรันไว้ก่อนที่งานจะสำเร็จหรือถูกยกเลิก สามารถใช้ไฟล์นี้เพื่อทำการรันต่อจากจุดที่หยุดโดยไม่ต้องเริ่มใหม่
-* `.inputparams file` ไฟล์แสดงพารามิเตอร์เริ่มต้นของแบบจำลอง
-* `.likelihood file` ไฟล์แสดง likelihoods ที่ใช้ในการรัน
-* `.paramnames file` ไฟล์แสดงพารามิเตอร์ทั้งหมด
-* `.ranges file` ไฟล์แสดงช่วงของค่าของพารามิเตอร์
-* `.converge_stat file` ไฟล์แสดงค่า R-1 ซึ่งจะบอกถึงค่าที่ยอมรับเพื่อนหยุดการรัน
+* `.txt file` lists each accepted set of parameters for each chain.
+* `.log file` contains some info which may be useful to assess performance.
+* `.data file` contains full computed model information at the independent sample points (power spectra etc).
+* `.chk file` stores the current status that if the processes are terminated they can be restarted again from close to where they left off.
+* `.inputparams file` contains the input values of the parameters and setting.
+* `.likelihood file` lists the names of the likelihoods.
+* `.paramnames file` lists the names and labels of the parameters.
+* `.ranges file` lists the name tags of the parameters, and their upper and lower bounds.
+* `.converge_stat file` contains "R-1" statistic that also used for the stopping criterion when generating chains with MPI.
 
 >> Plotting with GetDist
 
-การสร้างกราฟการกระจาย (distribution plot) และ กราฟสามเหลี่ยม (triangle plot) ต้องใช้แพคเกจสำหรับสร้างกราฟจากไฟล์ซึ่งเป็นเอาพุตท์ไฟล์จากการรัน \texttt{CosmoMC} รวมไปถึงการวิเคราะห์ค่าต่าง ๆ จากการรัน โดยแพคเกจต้องใช้ภาษา python ในการเขียนคำสั่ง โปรแกรมสำหรับเพื่อแสดงกราฟฟิกของ python แนะนำให้ใช้ jupyter notebook หรือ jupyter lab โดยสามารถติดตั้งได้ด้วยตัวเองจากอินเทอร์เน็ตในทุกระบบปฏิบัติการ
-และสามารถศึกษาเพิ่มเติมจาก https://getdist.readthedocs.io/en/latest/ และ https://getdist.readthedocs.io/en/latest/plot\_gallery.html
+To generate distribution plots and triangle plots, you need packages for graph creation from files, which are output files from running CosmoMC. The packages have been use in Python. For displaying plots, it is recommended to use Jupyter Notebook or Jupyter Lab. Additional information can be found at: [https://getdist.readthedocs.io/en/latest/](https://getdist.readthedocs.io/en/latest/) and [ https://getdist.readthedocs.io/en/latest/plot\_gallery.html](https://getdist.readthedocs.io/en/latest/plot\_gallery.html)
+
+First, you need to import the getdist library and select the chain you want to use for plotting graph by specifying the directory path to the chosen file in the line `file_root`.
 
 ```python
 %matplotlib inline
@@ -287,20 +284,18 @@ file_root2 = 'planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_l
 samples1 = loadMCSamples(file_root=file_root1,settings={'ignore_rows':0.5})
 samples2 = loadMCSamples(file_root=file_root2,settings={'ignore_rows':0.5})
 ```
-ขั้นแรกทําการนําเข้า getdist library และเลือก chain ที่ต้องการนํามาพล็อตกราฟโดยใส่ directory path ไปสุ๋ไฟล์ที่เลือกที่บรรทัด file_root
+2D plot
 ```python
 g2 = plots.get_subplot_plotter(width_inch=5)
 g2.settings.axes_fontsize = 16
 g2.settings.axes_labelsize = 20
 g2.plot_2d([samples1],'omegabh2','omegach2',filled=True,contour_lws=1.5)
 ```
-การพล็อตรูปเดี่ยวเฉพาะ 2 พารามิเตอร์ที่สนใจโดยใช้คําสั่งดังแสดงด้านบน
 <p align="center">
-<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/989574bd-510b-4488-a995-6935a7ace3cf"  width="500px" height="500px">
+<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/8d51b682-cc06-4de4-91ce-2dc0b2c82066"  width="500px" height="500px">
 </p>
-การพล็อตกราฟสามเหลี่ยม โดยสามารถเลือกพารามิเตอร์ที่สนใจจํานวนเท่าใดก็ได้ แต่หากใส่ในจํานวนที่มากเกินไปอาจจะทําให้ภาพมีขนาดใหญ่และราย
-ละเอียดมากเกินไป ควรจะเลือกใส่พารามิเตอร์ที่เหมาะสมไม่มากเกินไป
 
+Triangle plot
 ```python
 g = plots.get_subplot_plotter(width_inch=10)
 g.settings.axes_fontsize = 16
@@ -310,9 +305,8 @@ g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],fille
 <p align="center">  
 <img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/0edd073e-28fc-4938-8080-1a53e685f0ad" width="700px" height="700px"  align="center" >
 </p>
-สามารถให้กราฟแสดงผลค่า mean และ uncertainty ได้ โดยจะปรากฎด้านบนของกราฟการกระจายของแต่ละพารามิเตอร์ ซึ่งสามารถเลือกได้ทั้ง
-uncertainty ที่ 68%CL และ 95%CL
 
+Triangle plot with uncertainty limit at 68%CL and 95%CL
 ```python
 g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5,title_limit=2)
 ```
@@ -320,8 +314,7 @@ g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],fille
 <img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/823b3b03-2636-4bf0-b49c-7c11eecd0538" width="700px" height="700px"  align="center" >
 </p>
 
-หากต้องการเปรียบเทียบผลของ 2 แบบจําลองหรือมากกว่า สามารถเพิ่ม chain เข้าไปในคําสั่งได้โดยเพิ่ม file_root เช่นเดียวกับข้อมูลชุดแรก และ
-สามารถปรับจํานวนพารามิตอร์ได้เช่นเดียวกัน
+If you want to compare the two or more models results, you can add additional chains to the code by including another file_root similar to the first dataset. You can also adjust the number of parameters in the same way.
 ```python
  g.triangle_plot((samples1,samples2),['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5)
 ```
