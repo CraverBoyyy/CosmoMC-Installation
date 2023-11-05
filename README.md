@@ -311,7 +311,7 @@ Triangle plot with uncertainty limit at 68%CL and 95%CL
 g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5,title_limit=2)
 ```
 <p align="center">  
-<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/67a2409f-2134-4fda-bfc5-8aeaa07442ab" width="700px" height="700px"  align="center" >
+<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/d2f4ad52-eb54-417e-aac6-494b6805b2b6" width="700px" height="700px"  align="center" >
 </p>
 
 If you want to compare the two or more models results, you can add additional chains to the code by including another file_root similar to the first dataset. You can also adjust the number of parameters in the same way.
@@ -319,7 +319,7 @@ If you want to compare the two or more models results, you can add additional ch
  g.triangle_plot((samples1,samples2),['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5)
 ```
 <p align="center">        
-<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/d2f4ad52-eb54-417e-aac6-494b6805b2b6" width="700px" height="700px"  align="center" >
+<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/67a2409f-2134-4fda-bfc5-8aeaa07442ab" width="700px" height="700px"  align="center" >
 </p>
 
 
