@@ -271,7 +271,8 @@ mpirun ./cosmomc <path to .ini file>
 * `.ranges file` lists the name tags of the parameters, and their upper and lower bounds.
 * `.converge_stat file` contains "R-1" statistic that also used for the stopping criterion when generating chains with MPI.
 
->> Plotting with GetDist
+Plotting with GetDist
+===================
 
 To generate distribution plots and triangle plots, you need packages for graph creation from files, which are output files from running CosmoMC. The packages have been use in Python. For displaying plots, it is recommended to use Jupyter Notebook or Jupyter Lab. Additional information can be found at: [https://getdist.readthedocs.io/en/latest/](https://getdist.readthedocs.io/en/latest/) and [ https://getdist.readthedocs.io/en/latest/plot\_gallery.html](https://getdist.readthedocs.io/en/latest/plot\_gallery.html)
 
