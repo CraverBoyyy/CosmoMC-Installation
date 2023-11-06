@@ -32,12 +32,8 @@ pip3 install matplotlib
 pip3 install getdist
 sudo apt install liblapack-dev
 sudo apt install libcfitsio-dev
-```
-- Install HomeBrew
-  For Linux OS, you need to install Open-MPI manually, which have many steps. However, you can use Homebrew to simplify the installation of Open-MPI on Linux. Type the following command.
-```Linux
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-brew install open-mpi
+sudo apt install build-essential
+sudo apt-get install openmpi-bin openmpi-doc libopenmpi-dev
 ```
 
 - Install Intel Compiler (Optional)
@@ -86,7 +82,7 @@ wget -O COM_Likelihood_Code-v3.0_R3.10.tar.gz "http://pla.esac.esa.int/pla/aio/p
 wget -O COM_Likelihood_Data-baseline_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-baseline_R3.00.tar.gz"
 tar -xzvf COM_Likelihood_Code-v3.0_R3.10.tar.gz
 tar -xzvf COM_Likelihood_Data-baseline_R3.00.tar.gz
-mv -rf baseline/plc_3.0/* code/plc_3.0/plc-3.1/
+mv -f baseline/plc_3.0/* code/plc_3.0/plc-3.1/
 cd code/plc_3.0/plc-3.1/
 python3 ./waf configure --install_all_deps
 python3 ./waf install
@@ -102,8 +98,16 @@ wget -O COM_Likelihood_Data-extra-lensing-ext_R3.00.tar.gz "http://pla.esac.esa.
 ```
 
 ```Linux
-tar -xzvf <.tar.gz file>
-
+tar -xzvf COM_Likelihood_Data-extra-plik-lite-ext_R3.00.tar.gz
+tar -xzvf COM_Likelihood_Data-extra-camspec-ext_R3.00.tar.gz
+tar -xzvf COM_Likelihood_Data-extra-plik-ext_R3.00.tar.gz
+tar -xzvf COM_Likelihood_Data-extra-bflike-ext_R3.00.tar.gz
+tar -xzvf COM_Likelihood_Data-extra-lensing-ext_R3.00.tar.gz
+mv extended_plik_lite/plc_3.0/hi_l/plik_lite/* code/plc_3.0/plc-3.1/hi_l/plik_lite/
+mv extended_plik/plc_3.0/hi_l/plik/* code/plc_3.0/plc-3.1/hi_l/plik/
+mv extended_lensing/plc_3.0/lensing/* code/plc_3.0/plc-3.1/lensing/
+mv -f extended_bflike/plc_3.0/low_l/bflike code/plc_3.0/plc-3.1/low_l/
+mv -f extended_camspec/plc_3.0/low_l/camspec code/plc_3.0/plc-3.1/low_l/
 ```
 
 CosmoMC
