@@ -107,7 +107,7 @@ mv extended_plik_lite/plc_3.0/hi_l/plik_lite/* code/plc_3.0/plc-3.1/hi_l/plik_li
 mv extended_plik/plc_3.0/hi_l/plik/* code/plc_3.0/plc-3.1/hi_l/plik/
 mv extended_lensing/plc_3.0/lensing/* code/plc_3.0/plc-3.1/lensing/
 mv -f extended_bflike/plc_3.0/low_l/bflike code/plc_3.0/plc-3.1/low_l/
-mv -f extended_camspec/plc_3.0/hi_l/camspec code/plc_3.0/plc-3.1/low_l/
+mv -f extended_camspec/plc_3.0/hi_l/camspec code/plc_3.0/plc-3.1/hi_l/
 ```
 
 CosmoMC
