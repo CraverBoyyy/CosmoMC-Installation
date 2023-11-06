@@ -88,7 +88,7 @@ python3 ./waf configure --install_all_deps
 python3 ./waf install
 source ./bin/clik_profile.sh
 ```
-If you want to use the Intel Compiler, add the command **--lapack\_mkl=\$MKLROOT** at the end of `python3 ./waf configure --install_all_deps` line. After installing the **code** file, proceed to extract the remaining files. Then, move the **hi\_l**, **low\_l**, **lensing** files from the extracted directory to the **code/plc\_3.0/plc-3.1/** directory.
+If you want to use the Intel Compiler, add the command `--lapack\_mkl=\$MKLROOT` at the end of `python3 ./waf configure --install_all_deps` line. After installing the **code** file, proceed to extract the remaining files. Then, move the **hi\_l**, **low\_l**, **lensing** files from the extracted directory to the `code/plc\_3.0/plc-3.1/` directory.
 ```Linux
 wget -O COM_Likelihood_Data-extra-plik-lite-ext_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-extra-plik-lite-ext_R3.00.tar.gz"
 wget -O COM_Likelihood_Data-extra-camspec-ext_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-extra-camspec-ext_R3.00.tar.gz"
@@ -207,7 +207,7 @@ module load openmpi3/4.0.2
 module load CosmoMC
 mpirun <path to .ini file>
 ```
-For running on the pollux node, if model has been modified, a symbolic link for CLIK_PATH must be created in step 1. Following this, compilation is required, and it is essential to load the necessary modules as follows.
+For running on the pollux node, if model has been modified, a symbolic link for `$CLIK_PATH` must be created in step 1. Following this, compilation is required, and it is essential to load the necessary modules as follows.
 ```Linux
 module purge
 module load hwloc
