@@ -278,7 +278,7 @@ Plotting with GetDist
 
 To generate distribution plots and triangle plots, you need packages for graph creation from files, which are output files from running CosmoMC. The packages have been use in Python. For displaying plots, it is recommended to use Jupyter Notebook or Jupyter Lab. Additional information can be found at: [https://getdist.readthedocs.io/en/latest/](https://getdist.readthedocs.io/en/latest/) and [ https://getdist.readthedocs.io/en/latest/plot\_gallery.html](https://getdist.readthedocs.io/en/latest/plot\_gallery.html)
 
-First, you need to import the getdist library and select the chain you want to use for plotting graph by specifying the directory path to the chosen file in the line `file_root`.
+First, you need to import the getdist library and select the chain you want to use for plotting graph by specifying the directory path to your output files in the line `file_root`. For example, `file_root1` has been dowloaded output files from `planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing_post_BAO`. You do not to specify type of files such as `base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing_post_BAO_1.txt` or `base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing_post_BAO.inputparams`. Set only name of files `base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing_post_BAO`.
 
 ```python
 %matplotlib inline
