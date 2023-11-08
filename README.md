@@ -30,6 +30,7 @@ pip3 install numpy
 pip3 install scipy
 pip3 install matplotlib
 pip3 install getdist
+pip3 install jupyter
 sudo apt install liblapack-dev
 sudo apt install libcfitsio-dev
 sudo apt install build-essential
@@ -69,6 +70,7 @@ pip3 install numpy
 pip3 install scipy
 pip3 install matplotlib
 pip3 install getdist
+pip3 install jupyter
 brew install lapack
 brew install cfitsio
 brew install open-mpi
