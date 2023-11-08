@@ -286,10 +286,7 @@ import getdist
 from getdist import plots, MCSamples, loadMCSamples
 
 file_root1 = 'planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing_post_BAO'
-file_root2 = 'planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing'
-
 samples1 = loadMCSamples(file_root=file_root1,settings={'ignore_rows':0.5})
-samples2 = loadMCSamples(file_root=file_root2,settings={'ignore_rows':0.5})
 ```
 2D plot
 ```python
@@ -299,7 +296,7 @@ g2.settings.axes_labelsize = 20
 g2.plot_2d([samples1],'omegabh2','omegach2',filled=True,contour_lws=1.5)
 ```
 <p align="center">
-<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/8d51b682-cc06-4de4-91ce-2dc0b2c82066"  width="500px" height="500px">
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/b3fff9b8-fdac-4e60-9a71-68af71c1f8b9"  width="500px" height="500px">
 </p>
 
 Triangle plot
@@ -310,7 +307,7 @@ g.settings.axes_labelsize = 20
 g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5)
 ```
 <p align="center">  
-<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/3a884f1b-1ee2-4190-a863-a8b5bcf3a4e1" width="700px" height="700px"  align="center" >
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/6b1cf5c6-e40f-4157-88c4-7ff48a081819" width="700px" height="700px"  align="center" >
 </p>
 
 Triangle plot with uncertainty limit at 68%CL and 95%CL
@@ -318,15 +315,18 @@ Triangle plot with uncertainty limit at 68%CL and 95%CL
 g.triangle_plot(samples1,['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5,title_limit=2)
 ```
 <p align="center">  
-<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/d2f4ad52-eb54-417e-aac6-494b6805b2b6" width="700px" height="700px"  align="center" >
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/e3cfdad7-847a-4424-ba9d-5f79e7c897dc" width="700px" height="700px"  align="center" >
 </p>
 
 If you want to compare the two or more models results, you can add additional chains to the code by including another file_root similar to the first dataset. You can also adjust the number of parameters in the same way.
 ```python
- g.triangle_plot((samples1,samples2),['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5)
+file_root2 = 'planck/plikHM_TTTEEE_lowl_lowE_BK15_lensing/base_r_plikHM_TTTEEE_lowl_lowE_BK15_lensing'
+samples2 = loadMCSamples(file_root=file_root2,settings={'ignore_rows':0.5})
+
+g.triangle_plot((samples1,samples2),['omegabh2','omegach2','theta','tau','logA','ns'],filled=True,contour_lws=1.5)
 ```
 <p align="center">        
-<img src="https://github.com/CraverBoyyy/Mathematica-Tutorial/assets/109847168/67a2409f-2134-4fda-bfc5-8aeaa07442ab" width="700px" height="700px"  align="center" >
+<img src="https://github.com/CraverBoyyy/CosmoMC-Installation/assets/109847168/b236a90e-5337-41a9-8252-988f8944275a" width="700px" height="700px"  align="center" >
 </p>
 
 
