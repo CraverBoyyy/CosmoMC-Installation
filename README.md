@@ -260,7 +260,9 @@ source data/clik_14.0/bin/clik_profile.sh
 
 mpirun ./cosmomc <path to .ini file>
 ```
+
 Tutorial for basic Slurm Commands: [http://chalawan.narit.or.th/home/index.php/using-pollux/using-slurm/](http://chalawan.narit.or.th/home/index.php/using-pollux/using-slurm/) 
+
 5. Output
 
 * `.txt file` lists each accepted set of parameters for each chain.
