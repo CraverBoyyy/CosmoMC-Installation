@@ -140,7 +140,7 @@ make
 ```
 
 3. Running
-To run CosmoMC you need to run it with MPI using mpirun command. Set your corrent directory to CosmoMC directory and run this command.
+To run CosmoMC you need to run it with MPI/OpenMPI using mpirun command. Set your corrent directory to CosmoMC directory and run this command.
 
 ```Linux
 mpirun -np <number of processers (cores)> ./cosmomc <.ini file>
@@ -188,7 +188,7 @@ action = 0
 #turn on checkpoint for real runs where you want to be able to continue them
 checkpoint = T
 ```
-To do a MCMC run you need to find the line which starts with action and set its value to 0.
+Setting `root_dir` to model directory and `file_root` should contain information about the model and used datasets. To do a MCMC run you need to find the line which starts with action and set its value to 0.
 
 4. Running on Cluster
 
