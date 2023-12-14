@@ -31,6 +31,7 @@ pip3 install scipy
 pip3 install matplotlib
 pip3 install getdist
 pip3 install jupyter
+sudo apt install jupyter
 sudo apt install liblapack-dev
 sudo apt install libcfitsio-dev
 sudo apt install build-essential
