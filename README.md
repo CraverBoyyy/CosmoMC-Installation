@@ -29,6 +29,8 @@ sudo apt install python3-pip
 pip3 install numpy
 pip3 install scipy
 pip3 install matplotlib
+pip3 install cython
+pip3 install astropy
 pip3 install getdist
 pip3 install jupyter
 sudo apt install jupyter
@@ -70,8 +72,11 @@ python3 -m pip install --upgrade pip
 pip3 install numpy
 pip3 install scipy
 pip3 install matplotlib
+pip3 install cython
+pip3 install astropy
 pip3 install getdist
 pip3 install jupyter
+brew install jupyter
 brew install lapack
 brew install cfitsio
 brew install open-mpi
