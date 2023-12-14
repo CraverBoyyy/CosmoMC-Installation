@@ -88,6 +88,8 @@ Due to the large size of the data file, approximately 20 GB, it is recommended t
 ```Linux
 wget -O COM_Likelihood_Code-v3.0_R3.10.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Code-v3.0_R3.10.tar.gz"
 wget -O COM_Likelihood_Data-baseline_R3.00.tar.gz "http://pla.esac.esa.int/pla/aio/product-action?COSMOLOGY.FILE_ID=COM_Likelihood_Data-baseline_R3.00.tar.gz"
+```
+```Linux
 tar -xzvf COM_Likelihood_Code-v3.0_R3.10.tar.gz
 tar -xzvf COM_Likelihood_Data-baseline_R3.00.tar.gz
 mv -f baseline/plc_3.0/* code/plc_3.0/plc-3.1/
