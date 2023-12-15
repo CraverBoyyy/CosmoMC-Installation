@@ -127,7 +127,7 @@ CosmoMC
 ```Linux
 git clone --recursive https://github.com/cmbant/CosmoMC.git
 cd CosmoMC
-ln -s </plc-3.1 PATH> ./data/clik_14.0
+ln -s /PATH/to/plc-3.1 ./data/clik_14.0
 ```
 The PATH of the `/plc-3.1` file can be checked by typing the command `echo $CLIK_PATH`. It will display the PATH of the file.
 
@@ -151,7 +151,7 @@ make
 To run CosmoMC you need to run it with MPI/OpenMPI using mpirun command. Set your corrent directory to CosmoMC directory and run this command.
 
 ```Linux
-mpirun -np <number of processers (cores)> ./cosmomc <.ini file>
+mpirun -np number of processers (cores) ./cosmomc <.ini file>
 ```
 Inside the `.ini file` there are some lines which start with DEFAULT keyword. If these lines are not commented, it means we can use likelihoods related to these data.
 ```
